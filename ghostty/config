@@ -1,0 +1,24 @@
+# --- Transparency & Blur ---
+# Controls background opacity (0.0 is completely invisible, 1.0 is solid)
+background-opacity = 0.82
+
+# Enable native macOS background blur behind translucent windows
+background-blur-radius = 20
+
+# --- Window Styling ---
+# Clean macOS window chrome without standard titlebar clutter
+window-decoration = true
+macos-titlebar-style = transparent
+
+# Padding inside the terminal window
+window-padding-x = 12
+window-padding-y = 12
+
+# --- Font & Cursor ---
+# Block cursor
+cursor-style = block
+cursor-style-blink = false
+
+# --- Font Settings ---
+font-size = 16
+font-family = "JetBrains Mono"

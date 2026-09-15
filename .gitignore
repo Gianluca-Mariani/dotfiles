@@ -1,0 +1,24 @@
+# ==========================================
+# Neovim Ignored Runtime Data & Cache
+# ==========================================
+# Plugin manager installation directories
+nvim/lazy-lock.json      # Optional: Ignore if you always want latest plugin versions
+.netrwhist               # Netrw history file
+*.swp                    # Vim swap files
+*.swo
+*~                       # Backup files
+
+# Mason & Treesitter installed binaries/parsers (if accidentally installed locally)
+nvim/plugin/
+nvim/packer_compiled.lua # Legacy packer file if present
+
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Linux / Tmux session state
+*.log
