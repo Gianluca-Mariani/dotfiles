@@ -19,6 +19,9 @@ window-padding-y = 12
 cursor-style = block
 cursor-style-blink = false
 
+# Prevent shell/programs from overriding the cursor shape
+shell-integration-features = no-cursor
+
 # --- Font Settings ---
 font-size = 16
 font-family = "JetBrains Mono"

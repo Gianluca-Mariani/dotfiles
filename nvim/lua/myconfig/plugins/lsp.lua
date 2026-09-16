@@ -5,43 +5,71 @@ return {
     "williamboman/mason-lspconfig.nvim",
     "hrsh7th/nvim-cmp",
     "hrsh7th/cmp-nvim-lsp",
-    "L3MON4D3/LuaSnip",
+    "l3mon4d3/luasnip",
   },
   config = function()
     require("mason").setup()
+
+    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+    -- 1. Configure Julia natively via Neovim 0.11+ API
+    vim.lsp.config("julials", {
+      cmd = {
+        "julia",
+        "--startup-file=no",
+        "--history-file=no",
+        "-e",
+        [[
+          using LanguageServer
+          using Pkg
+          import StaticLint
+          import SymbolServer
+          
+          env_path = get(ENV, "JULIA_PROJECT", "project")
+          server = LanguageServer.LanguageServerInstance(stdin, stdout, false, env_path)
+          server.runlinter = true
+          run(server)
+        ]],
+      },
+      capabilities = capabilities,
+    })
+    vim.lsp.enable("julials")
+
+    -- 2. Configure Mason-managed LSPs using modern handlers
     require("mason-lspconfig").setup({
       ensure_installed = {
-          "lua_ls",
-          "rust_analyzer",
-          "pyright",
-          "clangd",
-          "julials",
-          "jdtls",
-          "bashls"
+        "lua_ls",
+        "rust_analyzer",
+        "pyright",
+        "clangd",
+        "jdtls",
+        "bashls",
       },
       handlers = {
         function(server_name)
-          local capabilities = require("cmp_nvim_lsp").default_capabilities()
-          require("lspconfig")[server_name].setup({
+          vim.lsp.config(server_name, {
             capabilities = capabilities,
           })
+          vim.lsp.enable(server_name)
         end,
       },
     })
 
+    -- 3. Autocompletion setup
     local cmp = require("cmp")
     cmp.setup({
       mapping = cmp.mapping.preset.insert({
-        ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<C-n>"] = cmp.mapping.select_next_item(),
-        ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<c-p>"] = cmp.mapping.select_prev_item(),
+        ["<c-n>"] = cmp.mapping.select_next_item(),
+        ["<c-y>"] = cmp.mapping.confirm({ select = true }),
+        ["<c-space>"] = cmp.mapping.complete(),
       }),
       sources = cmp.config.sources({
         { name = "nvim_lsp" },
       }),
     })
 
+    -- 4. Keymaps on LSP attach
     vim.api.nvim_create_autocmd("LspAttach", {
       callback = function(e)
         local opts = { buffer = e.buf }
