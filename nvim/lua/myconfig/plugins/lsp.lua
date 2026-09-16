@@ -15,18 +15,24 @@ return {
     -- 1. Configure Julia natively via Neovim 0.11+ API
     vim.lsp.config("julials", {
       cmd = {
-        "julia",
+        "julia", -- Automatically runs the juliaup default (LTS)
+        "--project=" .. vim.fn.expand("~/.julia/environments/nvim-lspconfig"),
         "--startup-file=no",
         "--history-file=no",
         "-e",
         [[
-          using LanguageServer
           using Pkg
-          import StaticLint
-          import SymbolServer
+          Pkg.instantiate()
+          using LanguageServer
+          using SymbolServer
           
-          env_path = get(ENV, "JULIA_PROJECT", "project")
-          server = LanguageServer.LanguageServerInstance(stdin, stdout, false, env_path)
+          depot_path = get(ENV, "JULIA_DEPOT_PATH", "")
+          project_path = let
+            p = get(ENV, "JULIA_PROJECT", nothing)
+            p === nothing ? pwd() : (isempty(p) ? pwd() : p)
+          end
+          
+          server = LanguageServerInstance(stdin, stdout, project_path, depot_path)
           server.runlinter = true
           run(server)
         ]],
