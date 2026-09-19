@@ -15,7 +15,3 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 -- Paste over selection without losing register
 vim.keymap.set("x", "<leader>p", [["_dP]])
-
--- System clipboard yank
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])

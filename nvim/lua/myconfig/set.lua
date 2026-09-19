@@ -28,4 +28,7 @@ opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 opt.undofile = true
 
 -- Keep cursor as a solid block in all modes
-vim.opt.guicursor = ""
+opt.guicursor = ""
+
+-- Copy to system clipboard
+opt.clipboard = "unnamedplus"
