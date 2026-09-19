@@ -1,6 +1,6 @@
 # --- Transparency & Blur ---
 # Controls background opacity (0.0 is completely invisible, 1.0 is solid)
-background-opacity = 0.82
+background-opacity = 0.9
 
 # Enable native macOS background blur behind translucent windows
 background-blur-radius = 20
@@ -21,4 +21,9 @@ cursor-style-blink = false
 
 # --- Font Settings ---
 font-size = 16
-font-family = "JetBrains Mono"
+font-family = "JetBrains Nerd Font"
+
+# --- Clipboard Settings ---
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = true
